@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -12,7 +12,7 @@ namespace RunRedisServer
         public static void Main(string[] args)
         {
             Console.WriteLine("-------------------------------------");
-            Console.WriteLine("Redis服务运行助手V1.0");
+            Console.WriteLine("Redis服务运行助手V1.1");
             Console.WriteLine("冰河之刃 渡桥计划");
             Console.WriteLine("博客：https://www.cnblogs.com/binghe021");
             Console.WriteLine("运行效果等同于命令行: redis-server.exe redis.windows-service.conf");
@@ -49,8 +49,8 @@ namespace RunRedisServer
             Console.WriteLine("exe文件名：" + exeFileName);
             Console.WriteLine("conf文件名：" + confFileName);
 
-            string exeFile = baseDirectory + exeFileName;
-            string confFile = baseDirectory + confFileName;
+            string exeFile = Path.Combine(baseDirectory, exeFileName);
+            string confFile = Path.Combine(baseDirectory, confFileName);
 
 
             if (!File.Exists(exeFile))
@@ -66,12 +66,7 @@ namespace RunRedisServer
                 return;
             }
 
-            if (args.Length == 1)
-            {
-                //有传入参数，执行完即完成。
-                RunRedis(baseDirectory, exeFileName, confFileName);
-                return;
-            }
+
 
 
             //没有传入参数，按默认流程走。
@@ -91,8 +86,21 @@ namespace RunRedisServer
             else
             {
                 Console.WriteLine("未发现正在运行的redis-server进程");
+
+                if (args.Length == 1)
+                {
+                    Console.WriteLine("有传入参数");
+                }
+                else
+                {
+                    Console.WriteLine("无传入参数");
+                }
+
                 RunRedis(baseDirectory, exeFileName, confFileName);
+
             }
+
+            Console.WriteLine("运行完成");
 
         }
 
